@@ -26,7 +26,7 @@ public class QuizGameProject {
             {"A. Seoul", "B. Beijing", "C. Tokyo", "D. Bangkok"},
             {"A. Vincent van Gogh", "B. Pablo Picasso", "C. Leonardo da Vinci", "D. Michelangelo"}
         };
-        
+
         
         String[] correctAnswer = {"A", "B", "B", "C", "A"};
 
@@ -71,7 +71,7 @@ public class QuizGameProject {
                 System.out.println("Answer is correct");
                 
             } else {
-                System.out.println("Incorrect! The corrcet answer is "+ correctAnswer[i] + ".");
+                System.out.println("Incorrect! The correct answer is "+ correctAnswer[i] + ".");
             }
             System.out.println(); // Add a new line after each question
         }
