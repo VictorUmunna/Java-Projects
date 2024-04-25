@@ -8,18 +8,19 @@ public class LibrarySystem {
 
     public static void main(String[] args) {
         boolean exit = false;
-        
+
         while (!exit) {
             System.out.println("\nLibrary System Menu:");
             System.out.println("1. Add Books");
             System.out.println("2. Borrow Books");
             System.out.println("3. Return Books");
-            System.out.println("4. Exit");
+            System.out.println("4. List Books");
+            System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
-            
+
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-            
+
             switch (choice) {
                 case 1:
                     addBooks();
@@ -31,13 +32,16 @@ public class LibrarySystem {
                     returnBooks();
                     break;
                 case 4:
+                    listBooks();
+                    break;
+                case 5:
                     exit = true;
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-        
+
         System.out.println("Exiting the program. Goodbye!");
         scanner.close();
     }
@@ -67,16 +71,16 @@ public class LibrarySystem {
         System.out.println("\nBorrow Books:");
         System.out.print("Enter the book title: ");
         String title = scanner.nextLine();
-        
+
         Book book = library.get(title);
         if (book == null) {
             System.out.println("Sorry, the book '" + title + "' is not available in the library.");
             return;
         }
-        
+
         System.out.print("Enter the number of books to borrow: ");
         int quantityToBorrow = scanner.nextInt();
-        
+
         if (quantityToBorrow > book.getQuantity()) {
             System.out.println("Sorry, only " + book.getQuantity() + " copies of '" + title + "' are available.");
         } else {
@@ -89,18 +93,39 @@ public class LibrarySystem {
         System.out.println("\nReturn Books:");
         System.out.print("Enter the book title: ");
         String title = scanner.nextLine();
-        
+
         Book book = library.get(title);
         if (book == null) {
             System.out.println("Sorry, the book '" + title + "' does not belong to the library system.");
             return;
         }
-        
+
         System.out.print("Enter the number of books to return: ");
         int quantityToReturn = scanner.nextInt();
-        
+
         book.setQuantity(book.getQuantity() + quantityToReturn);
         System.out.println("You have successfully returned " + quantityToReturn + " copies of '" + title + "'.");
+    }
+
+    private static void listBooks() {
+        boolean backToMenu = false;
+        while (!backToMenu) {
+            System.out.println("\nList of Books:");
+            if (library.isEmpty()) {
+                System.out.println("No books available in the library.");
+            } else {
+                for (Book book : library.values()) {
+                    System.out.println("Title: " + book.getTitle() + ", Author: " + book.getAuthor() + ", Quantity: " + book.getQuantity());
+                }
+            }
+            System.out.print("\nPress '0' to return to the main menu: ");
+            int backChoice = scanner.nextInt();
+            if (backChoice == 0) {
+                backToMenu = true;
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
     }
 
     private static class Book {
