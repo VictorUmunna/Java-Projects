@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class Student {
@@ -38,11 +39,24 @@ class StudentRecordManagementSystem {
     public static void addStudent() {
         System.out.print("Enter student name: ");
         String name = scanner.next();
+
         System.out.print("Enter student ID: ");
+        while (!scanner.hasNextInt()) {
+            System.out.println("Enter a number for the student ID: ");
+            scanner.next();
+        }
         int id = scanner.nextInt();
         System.out.print("Enter student age: ");
+        while (!scanner.hasNextInt()) {
+            System.out.println("That's not a number! Please enter a number for the student age: ");
+            scanner.next();
+        }
         int age = scanner.nextInt();
         System.out.print("Enter student grade: ");
+        while (!scanner.hasNextDouble()) {
+            System.out.println("That's not a number! Please enter a number for the student grade: ");
+            scanner.next();
+        }
         double grade = scanner.nextDouble();
         Student newStudent = new Student(name, id, age, grade);
         studentList[totalStudents++] = newStudent;
@@ -66,8 +80,8 @@ class StudentRecordManagementSystem {
                     break;
                 }
             }
-            if (!found) {
-                throw new IllegalArgumentException("Student ID not found.");
+                if (!found) {
+                    throw new IllegalArgumentException("Student ID not found.");
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
