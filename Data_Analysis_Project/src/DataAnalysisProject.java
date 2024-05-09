@@ -1,28 +1,89 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-    public class DataAnalysisProject {
-        public static void main(String[] args) {
 
-            // Create an array to store the data
-            double[] data = {126.0, 121.0, 120.0, 121.5, 126.6, 123.0, 124.2, 124.0, 125.0, 126.1};
-            
-            // Create an ArrayList to store the data
-            ArrayList<Double> dataList = new ArrayList<>(Arrays.asList(126.0, 121.0, 120.0, 121.5, 126.6, 123.0, 124.2, 124.0, 125.0, 126.1));
-            
-            
-            // Calculate the average stock price using a method
-            double average = calculateAveragePrice(data);
-        
-            System.out.println("Average price: " + average);
+public class DataAnalysisProject {
+
+    public static void main(String[] args) {
+
+        // Create an array to store the data
+        float[] stockPriceArray = {126.0f, 121.0f, 120.0f, 121.0f, 126.6f, 123.0f, 121.0f, 124.0f, 125.0f, 126.1f};
+
+        // Create an ArrayList to store the data
+        ArrayList<Float> stockPriceArrayList = new ArrayList<>();
+        for (float price : stockPriceArray) {
+            stockPriceArrayList.add(price);
         }
-        
-        // Method to calculate the average stock price
-        public static double calculateAveragePrice(double[] data) {
-            double sum = 0.0;
-            for (int i = 0; i < data.length; i++) {
-            sum += data[i];
+
+        // Convert ArrayList to an array for method calls
+        float[] data = new float[stockPriceArrayList.size()];
+        for (int i = 0; i < stockPriceArrayList.size(); i++) {
+            data[i] = stockPriceArrayList.get(i);
+        }
+
+        // Calculate the average stock price using a method
+        float average = calculateAveragePrice(data);
+        System.out.println("Average price of array: " + average);
+
+        // Calculate the maximum stock price using a method
+        float max = findMaximumPrice(data);
+        System.out.println("Maximum price: " + max);
+
+        // Count the number of occurrences of a specific price
+        float target = 121.0f;
+        int count = countOccurrences(data, target);
+        System.out.println("Number of occurrences of " + target + ": " + count);
+
+        // Compute the cumulative sum of stock prices using an ArrayList
+        ArrayList<Float> cumulativeSumList = computeCumulativeSum(stockPriceArrayList);
+        System.out.print("Cumulative sum of stock prices: ");
+        for (Float sum : cumulativeSumList) {
+            System.out.print(sum + " ");
+        }
+        System.out.println(); // Print a new line after the cumulative sum
+
+    }
+
+    // Method to calculate the average stock price
+    public static float calculateAveragePrice(float[] stockPriceArray) {
+        float sum = 0.0f;
+        for (int i = 0; i < stockPriceArray.length; i++) {
+            sum += stockPriceArray[i];
+        }
+        return sum / stockPriceArray.length;
+    }
+
+    // Method to find the maximum stock price
+    public static float findMaximumPrice(float[] stockPriceArray) {
+        float max = stockPriceArray[0];
+        for (int i = 1; i < stockPriceArray.length; i++) {
+            if (stockPriceArray[i] > max) {
+                max = stockPriceArray[i];
             }
-            return sum / data.length;
+        }
+        return max;
+    }
+
+    // Method to count the number of occurrences of a specific price
+    public static int countOccurrences(float[] stockPriceArray , float target) {
+        int count = 0;
+        for (int i = 0; i < stockPriceArray.length; i++) {
+            if (stockPriceArray[i] == target) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Method to compute the cumulative sum of stock prices
+    public static ArrayList<Float> computeCumulativeSum(ArrayList<Float> stockPriceArrayList) {
+        ArrayList<Float> cumulativeSum = new ArrayList<>();
+        float sum = 0.0f;
+        for (int i = 0; i < stockPriceArrayList.size(); i++) {
+          sum += stockPriceArrayList.get(i);
+          cumulativeSum.add(sum);
+        }
+        return cumulativeSum;
       }
+      
+      
+          
 }
-    
