@@ -13,23 +13,17 @@ public class DataAnalysisProject {
             stockPriceArrayList.add(price);
         }
 
-        // Convert ArrayList to an array for method calls
-        float[] data = new float[stockPriceArrayList.size()];
-        for (int i = 0; i < stockPriceArrayList.size(); i++) {
-            data[i] = stockPriceArrayList.get(i);
-        }
-
         // Calculate the average stock price using a method
-        float average = calculateAveragePrice(data);
+        float average = calculateAveragePrice(stockPriceArray);
         System.out.println("Average price of array: " + average);
 
         // Calculate the maximum stock price using a method
-        float max = findMaximumPrice(data);
+        float max = findMaximumPrice(stockPriceArray);
         System.out.println("Maximum price: " + max);
 
         // Count the number of occurrences of a specific price
         float target = 121.0f;
-        int count = countOccurrences(data, target);
+        int count = countOccurrences(stockPriceArray, target);
         System.out.println("Number of occurrences of " + target + ": " + count);
 
         // Compute the cumulative sum of stock prices using an ArrayList
@@ -38,7 +32,7 @@ public class DataAnalysisProject {
         for (Float sum : cumulativeSumList) {
             System.out.print(sum + " ");
         }
-        System.out.println(); // Print a new line after the cumulative sum
+        System.out.println();
 
     }
 
