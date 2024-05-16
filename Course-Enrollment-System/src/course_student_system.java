@@ -2,8 +2,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class course_student_system {
@@ -69,14 +69,14 @@ public class course_student_system {
     private static void enrollNewStudent(BufferedReader reader, List<Student> students, List<Course> courses) throws IOException {
         System.out.print("Enter student name: ");
         String studentName = reader.readLine();
-        System.out.print("Enter student id: ");
-        String studentId = reader.readLine();
+        System.out.print("Enter student id (without spaces): "); // Emphasize trimming whitespace
+        String studentId = reader.readLine().trim();
         Student student = new Student(studentName, studentId);
         System.out.print("Enter course code: ");
         String courseCode = reader.readLine();
         Course course = getCourseByCode(courseCode, courses);
         if (course != null) {
-            if (enrollStudent(student, course, students))
+            if (CourseManagement.enrollStudent(student, course, students))
                 System.out.println("Student enrolled successfully.");
             else
                 System.out.println("Student could not be enrolled, course is full.");
@@ -84,16 +84,20 @@ public class course_student_system {
             System.out.println("Course not found.");
         }
     }
-
+    
     private static void addCourseToStudent(BufferedReader reader, List<Student> students, List<Course> courses) throws IOException {
-        System.out.print("Enter student id: ");
-        String studentId = reader.readLine();
+        System.out.print("Enter student id (without spaces): "); // Emphasize trimming whitespace
+        String studentId = reader.readLine().trim();
         Student student = getStudentById(studentId, students);
+        if (student == null) {
+            System.out.println("Student not found.");
+            return; // Exit the method if student is not found
+        }
         System.out.print("Enter course code: ");
         String courseCode = reader.readLine();
         Course course = getCourseByCode(courseCode, courses);
         if (course != null) {
-            if (enrollStudent(student, course, students))
+            if (CourseManagement.enrollStudent(student, course, students))
                 System.out.println("Course added to student successfully.");
             else
                 System.out.println("Course could not be added, course is full.");
@@ -101,27 +105,30 @@ public class course_student_system {
             System.out.println("Course not found.");
         }
     }
-
     private static void assignGradeToStudent(BufferedReader reader, List<Student> students, List<Course> courses) throws IOException {
-        System.out.print("Enter student id: ");
-        String studentId = reader.readLine();
+        System.out.print("Enter student id (without spaces): ");
+        String studentId = reader.readLine().trim();
         Student student = getStudentById(studentId, students);
-        System.out.print("Enter course code: ");
-        String courseCode = reader.readLine();
-        Course course = getCourseByCode(courseCode, courses);
-        if (course != null) {
-            System.out.print("Enter grade: ");
-            int grade = Integer.parseInt(reader.readLine());
-            student.assignGrade(course, grade);
-            System.out.println("Grade assigned successfully.");
+        if (student == null) {
+            System.out.println("Student not found.");
         } else {
-            System.out.println("Course not found.");
+            System.out.print("Enter course code: ");
+            String courseCode = reader.readLine();
+            Course course = getCourseByCode(courseCode, courses);
+            if (course != null) {
+                System.out.print("Enter grade: ");
+                int grade = Integer.parseInt(reader.readLine());
+                student.assignGrade(course, grade);
+                System.out.println("Grade assigned successfully.");
+            } else {
+                System.out.println("Course not found.");
+            }
         }
     }
 
     private static void calculateOverallGrade(BufferedReader reader, List<Student> students) throws IOException {
-        System.out.print("Enter student id: ");
-        String studentId = reader.readLine();
+        System.out.print("Enter student id (without spaces): ");
+        String studentId = reader.readLine().trim();
         Student student = getStudentById(studentId, students);
         if (student != null) {
             System.out.println("Overall grade: " + student.calculateOverallGrade());
@@ -138,7 +145,7 @@ public class course_student_system {
         }
         return null;
     }
-
+    
     private static Student getStudentById(String studentId, List<Student> students) {
         for (Student student : students) {
             if (student.getId().equals(studentId)) {
@@ -146,18 +153,6 @@ public class course_student_system {
             }
         }
         return null;
-    }
-
-    private static boolean enrollStudent(Student student, Course course, List<Student> students) {
-        int totalEnrolled = 0;
-        for (Student s : students) {
-            totalEnrolled += s.getEnrolledCourses().size();
-        }
-        if (totalEnrolled < course.getMaxCapacity()) {
-            student.enrollCourse(course);
-            return true;
-        }
-        return false;
     }
 }
 
@@ -230,31 +225,21 @@ class Course {
 }
 
 class CourseManagement {
-    private static final List<Course> courses = new ArrayList<>();
-    private static final List<Student> students = new ArrayList<>();
 
-    public static void addCourse(String name, String code, int maxCapacity) {
-        Course course = new Course(name, code, maxCapacity);
-        courses.add(course);
-    }
-
-    public static boolean enrollStudent(Student student, Course course) {
+    public static boolean enrollStudent(Student student, Course course, List<Student> students) {
         int totalEnrolled = 0;
         for (Student s : students) {
-            totalEnrolled += s.getEnrolledCourses().size();
+            if (s.getEnrolledCourses().contains(course)) {
+                totalEnrolled++;
+            }
         }
         if (totalEnrolled < course.getMaxCapacity()) {
             student.enrollCourse(course);
-            students.add(student);
+            if (!students.contains(student)) {
+                students.add(student); // Add the student to the list only if they're not already in it
+            }
             return true;
         }
         return false;
     }
-
-    public static void assignGrade(Student student, Course course, int grade) {
-        student.assignGrade(course, grade);
-    }
 }
-
-
-
