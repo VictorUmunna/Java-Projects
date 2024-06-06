@@ -3,6 +3,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MyClass",
+            "request": "launch",
+            "mainClass": "MyClass",
+            "projectName": "code_c7f775eb"
+        },
+        {
+            "type": "java",
+            "name": "Circle",
+            "request": "launch",
+            "mainClass": "Circle",
+            "projectName": "code_c7f775eb"
+        },
+        {
+            "type": "java",
+            "name": "comp",
+            "request": "launch",
+            "mainClass": "comp",
+            "projectName": "code_c7f775eb"
+        },
+        {
+            "type": "java",
             "name": "EmployeeManagement",
             "request": "launch",
             "mainClass": "EmployeeManagement",
