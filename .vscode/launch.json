@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "EmployeeManagement",
+            "request": "launch",
+            "mainClass": "EmployeeManagement",
+            "projectName": "code_c7f775eb"
+        },
+        {
+            "type": "java",
             "name": "StudentManagementSystem",
             "request": "launch",
             "mainClass": "StudentManagementSystem",
